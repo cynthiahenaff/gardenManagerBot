@@ -9,6 +9,7 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.9.5",
     "@babel/preset-env": "^7.9.5",
     "@babel/register": "^7.9.0",
+    "@slack/webhook": "^5.0.3",
     "airtable": "^0.8.1",
     "babel-plugin-module-resolver": "^4.0.0",
     "date-fns": "^2.12.0",
