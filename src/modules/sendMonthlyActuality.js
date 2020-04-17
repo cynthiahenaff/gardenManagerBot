@@ -12,7 +12,7 @@ export default () => {
     const day = format(new Date(), 'd');
     const hour = getHours(new Date());
 
-    if (day !== 17 && hour !== 14) {
+    if (day !== 17 && hour !== 19) {
       return;
     }
 
