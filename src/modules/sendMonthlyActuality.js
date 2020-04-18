@@ -1,18 +1,14 @@
-import { format, getHours } from 'date-fns';
 import getAirtableData from './getAirtableData';
 import getUsers from './getUsers';
 import Telegram from 'telegraf/telegram';
-import { logHandling } from 'utils';
+import { logHandling, currentDay, currentHour } from 'utils';
 
 export default () => {
   const momId = parseInt(process.env.MOM_ID);
   const telegram = new Telegram(process.env.TELEGRAM_BOT_TOKEN);
 
   const sendMonthlyActuality = async () => {
-    const day = format(new Date(), 'd');
-    const hour = getHours(new Date());
-
-    if (day !== 17 && hour !== 19) {
+    if (currentDay !== 17 && currentHour !== 18) {
       return;
     }
 
@@ -58,5 +54,5 @@ export default () => {
     }
   };
 
-  setInterval(sendMonthlyActuality, 3600 * 1000);
+  setInterval(sendMonthlyActuality, 1800 * 1000);
 };

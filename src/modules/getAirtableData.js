@@ -1,12 +1,8 @@
-require('dotenv').config();
-
 import Airtable from 'airtable';
-import { format } from 'date-fns';
 import { get } from 'lodash';
+import { currentMonth } from 'utils';
 
 const getAirtableData = async id => {
-  const actualMonth = format(new Date(), 'M');
-
   const base = new Airtable({
     apiKey: process.env.AIRTABLE_API_KEY,
   }).base(process.env.AIRTABLE_BASE_ID);
@@ -23,11 +19,11 @@ const getAirtableData = async id => {
     })
     .firstPage();
 
-  const actualMonthRecord = monthRecords.find(
-    ({ fields }) => fields?.Name === actualMonth,
+  const currentMonthRecord = monthRecords.find(
+    ({ fields }) => fields?.Name === currentMonth,
   );
 
-  const pruningIds = get(actualMonthRecord, 'fields.Pruning', []);
+  const pruningIds = get(currentMonthRecord, 'fields.Pruning', []);
 
   const pruningRecords = await Promise.all(pruningIds.map(id => getPlant(id)));
 
@@ -35,7 +31,7 @@ const getAirtableData = async id => {
     ({ Owner }) => Owner && Owner.indexOf(id) !== -1,
   );
 
-  const harvestIds = get(actualMonthRecord, 'fields.Harvest', []);
+  const harvestIds = get(currentMonthRecord, 'fields.Harvest', []);
 
   const harvestRecords = await Promise.all(harvestIds.map(id => getPlant(id)));
 

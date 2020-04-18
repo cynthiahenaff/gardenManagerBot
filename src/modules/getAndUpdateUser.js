@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 import Airtable from 'airtable';
 
 const getAndUpdateUser = async (username, telegramId) => {

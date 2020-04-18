@@ -28,3 +28,25 @@ export const logHandling = (title, message) => {
     ],
   });
 };
+
+export const currentDay = parseInt(
+  new Intl.DateTimeFormat('fr-FR', {
+    day: 'numeric',
+    timeZone: 'Europe/Paris',
+  }).format(new Date()),
+);
+
+export const currentHour = parseInt(
+  new Intl.DateTimeFormat('fr-FR', {
+    hour: 'numeric',
+    hour12: false,
+    timeZone: 'Europe/Paris',
+  }).format(new Date()),
+);
+
+export const currentMonth = parseInt(
+  new Intl.DateTimeFormat('fr-FR', {
+    month: 'numeric',
+    timeZone: 'Europe/Paris',
+  }).format(new Date()),
+);
