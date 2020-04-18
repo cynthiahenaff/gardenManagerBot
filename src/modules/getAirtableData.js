@@ -20,7 +20,7 @@ const getAirtableData = async id => {
     .firstPage();
 
   const currentMonthRecord = monthRecords.find(
-    ({ fields }) => fields?.Name === currentMonth,
+    ({ fields }) => fields?.Name === `${currentMonth}`,
   );
 
   const pruningIds = get(currentMonthRecord, 'fields.Pruning', []);

@@ -8,7 +8,7 @@ export default () => {
   const telegram = new Telegram(process.env.TELEGRAM_BOT_TOKEN);
 
   const sendMonthlyActuality = async () => {
-    if (currentDay !== 18 && currentHour !== 18) {
+    if (currentDay !== 18 && currentHour !== 20) {
       return;
     }
 
@@ -54,5 +54,5 @@ export default () => {
     }
   };
 
-  setInterval(sendMonthlyActuality, 1800 * 1000);
+  setInterval(sendMonthlyActuality, 1000);
 };
