@@ -8,7 +8,7 @@ const getUsers = async () => {
   const users = await base('Users')
     .select({
       maxRecords: 12,
-      fields: ['Name', 'Username', 'TelegramID', 'Shrub'],
+      fields: ['Name', 'Username', 'TelegramID', 'Plant', 'Notifications'],
     })
     .firstPage();
 

@@ -2,7 +2,7 @@ import Airtable from 'airtable';
 import { get } from 'lodash';
 import { currentMonth } from 'utils';
 
-const getAirtableData = async id => {
+const getUserPlantsData = async id => {
   const base = new Airtable({
     apiKey: process.env.AIRTABLE_API_KEY,
   }).base(process.env.AIRTABLE_BASE_ID);
@@ -15,12 +15,22 @@ const getAirtableData = async id => {
   const monthRecords = await base('Planning')
     .select({
       maxRecords: 12,
-      fields: ['Name', 'Pruning', 'Harvest'],
+      fields: ['Name', 'Plantation', 'Pruning', 'Harvest'],
     })
     .firstPage();
 
   const currentMonthRecord = monthRecords.find(
     ({ fields }) => fields?.Name === `${currentMonth}`,
+  );
+
+  const plantationIds = get(currentMonthRecord, 'fields.Plantation', []);
+
+  const plantationRecords = await Promise.all(
+    plantationIds.map(id => getPlant(id)),
+  );
+
+  const userPlantations = plantationRecords.filter(
+    ({ Owner }) => Owner && Owner.indexOf(id) !== -1,
   );
 
   const pruningIds = get(currentMonthRecord, 'fields.Pruning', []);
@@ -40,9 +50,10 @@ const getAirtableData = async id => {
   );
 
   return {
+    userPlantations,
     userPrunings,
     userHarvests,
   };
 };
 
-export default getAirtableData;
+export default getUserPlantsData;
