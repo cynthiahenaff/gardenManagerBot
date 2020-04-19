@@ -4,11 +4,11 @@ import Telegram from 'telegraf/telegram';
 import { logHandling, currentDay, currentHour } from 'utils';
 
 export default () => {
-  const momId = parseInt(process.env.MOM_ID);
+  const momId = parseInt(process.env.MOM_ID, 10);
   const telegram = new Telegram(process.env.TELEGRAM_BOT_TOKEN);
 
   const sendMonthlyActuality = async () => {
-    if (currentDay !== 18 && currentHour !== 20) {
+    if (currentDay !== 20 || currentHour !== 17) {
       return;
     }
 
@@ -24,14 +24,14 @@ export default () => {
 
           if (TelegramID === momId) {
             await logHandling(
-              'Voici les plantes qui ont besoin d‘être taillée pour ce mois ci',
+              'Voici les plantes qui ont besoin d‘être taillées pour ce mois ci',
               message,
             );
           }
 
           telegram.sendMessage(
             TelegramID,
-            'Voici les plantes qui ont besoin d‘être taillée pour ce mois ci',
+            'Voici les plantes qui ont besoin d‘être taillées pour ce mois ci',
           );
           telegram.sendMessage(TelegramID, message, { parse_mode: 'Markdown' });
         }
@@ -42,10 +42,10 @@ export default () => {
             .join(`\n\n`);
 
           if (TelegramID === momId) {
-            await logHandling('Voici les recoltes du mois', message);
+            await logHandling('Voici les récoltes du mois', message);
           }
 
-          telegram.sendMessage(TelegramID, 'Voici les recoltes du mois');
+          telegram.sendMessage(TelegramID, 'Voici les récoltes du mois');
           telegram.sendMessage(TelegramID, message, { parse_mode: 'Markdown' });
         }
       });
@@ -54,5 +54,5 @@ export default () => {
     }
   };
 
-  setInterval(sendMonthlyActuality, 1800 * 1000);
+  setInterval(sendMonthlyActuality, 3600 * 1000);
 };

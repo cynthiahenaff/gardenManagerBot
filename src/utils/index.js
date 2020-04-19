@@ -34,6 +34,7 @@ export const currentDay = parseInt(
     day: 'numeric',
     timeZone: 'Europe/Paris',
   }).format(new Date()),
+  10,
 );
 
 export const currentHour = parseInt(
@@ -42,6 +43,7 @@ export const currentHour = parseInt(
     hour12: false,
     timeZone: 'Europe/Paris',
   }).format(new Date()),
+  10,
 );
 
 export const currentMonth = parseInt(
@@ -49,4 +51,5 @@ export const currentMonth = parseInt(
     month: 'numeric',
     timeZone: 'Europe/Paris',
   }).format(new Date()),
+  10,
 );
