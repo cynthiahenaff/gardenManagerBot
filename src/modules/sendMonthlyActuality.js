@@ -7,7 +7,7 @@ import { currentDay, currentHour } from 'utils';
 export default () => {
   const sendMonthlyActuality = async () => {
     console.log({ currentDay, currentHour });
-    if (currentDay !== 20 || currentHour !== 18) {
+    if (currentDay !== 20 || currentHour !== 19) {
       console.log('return');
       return;
     }
@@ -81,5 +81,5 @@ export default () => {
     }
   };
 
-  setInterval(sendMonthlyActuality, 30 * 1000);
+  setInterval(sendMonthlyActuality, 3600 * 1000);
 };
