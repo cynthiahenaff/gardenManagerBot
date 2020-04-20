@@ -1,5 +1,5 @@
 import { Markup } from 'telegraf';
-import { getMonthKeyboard } from 'utils';
+import { getMonthKeyboard, getLabelByTypeAndMonth } from 'utils';
 import getQueryData from './getQueryData';
 import getUser from './getUser';
 
@@ -34,10 +34,17 @@ export default bot => {
       const plants = await getQueryData(user.id, type, month);
       const message =
         plants.length > 1
-          ? plants
-              .map(plant => `*${plant.Name}* \n${plant[`${type}Advice`]}`)
-              .join(`\n\n`)
-          : 'Rien à faire pour ce mois ci :)';
+          ? `${getLabelByTypeAndMonth(type, month)} \n\n${plants
+              .map(
+                plant =>
+                  `*${plant.Name}* ${
+                    Boolean(plant[`${type}Advice`])
+                      ? `\n${plant[`${type}Advice`]}`
+                      : ''
+                  }`,
+              )
+              .join(`\n\n`)}`
+          : '❌ Rien à faire pour ce mois ci :)';
 
       ctx.replyWithMarkdown(message);
     });

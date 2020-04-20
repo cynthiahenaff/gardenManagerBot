@@ -54,7 +54,6 @@ export const currentMonth = parseInt(
   }).format(new Date()),
   10,
 );
-
 const months = [
   'janvier',
   'fevrier',
@@ -63,12 +62,29 @@ const months = [
   'mai',
   'juin',
   'juillet',
-  'aout',
+  'août',
   'septembre',
   'octobre',
   'novembre',
-  'decembre',
+  'décembre',
 ];
+
+export const getLabelByTypeAndMonth = (type, month) => {
+  switch (type) {
+    case 'Pruning':
+      return `👩‍🌾 Tailles pour le mois de ${months[Number(month) + 1]}`;
+    case 'Harvest':
+      return `🌻 Récolte pour le mois de ${months[Number(month) + 1]}`;
+    case '❄️ Winter':
+      return `Préparation pour l'hiver pour le mois de ${
+        months[Number(month) + 1]
+      }`;
+    case 'Plantation':
+      return `🌱 Plantation pour le mois de ${months[Number(month) + 1]}`;
+    default:
+      return '';
+  }
+};
 
 const getMonthName = month =>
   `${currentMonth === months.indexOf(month) + 1 ? '🗓 ' : ''}${capitalize(

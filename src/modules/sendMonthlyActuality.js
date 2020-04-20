@@ -28,7 +28,7 @@ export default () => {
         ) {
           sendUserNotification({
             TelegramID,
-            title: `${userPrunings.length} plante${
+            title: `👩‍🌾 ${userPrunings.length} plante${
               userPrunings.length > 1 ? 's' : ''
             } à tailler ce mois ci:`,
             data: userPrunings,
@@ -42,7 +42,7 @@ export default () => {
         ) {
           sendUserNotification({
             TelegramID,
-            title: `${userHarvests.length} plante${
+            title: `🌻 ${userHarvests.length} plante${
               userHarvests.length > 1 ? 's' : ''
             } à récolter ce mois ci:`,
             data: userHarvests,
@@ -56,7 +56,7 @@ export default () => {
         ) {
           sendUserNotification({
             TelegramID,
-            title: `${userPlantations.length} plante${
+            title: `🌱 ${userPlantations.length} plante${
               userPlantations.length > 1 ? 's' : ''
             } à planter ce mois ci:`,
             data: userPlantations,
@@ -67,9 +67,9 @@ export default () => {
         if (Notifications.indexOf('Winter') !== -1 && userWinters.length > 0) {
           sendUserNotification({
             TelegramID,
-            title: `${userWinters.length} plante${
+            title: `❄️ ${userWinters.length} plante${
               userWinters.length > 1 ? 's' : ''
-            } ont besoin de soin pour se préparer à l'hiver`,
+            } ont besoin de soin pour affronter l'hiver:`,
             data: userWinters,
             type: 'Winter',
           });

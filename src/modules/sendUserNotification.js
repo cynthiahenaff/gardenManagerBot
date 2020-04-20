@@ -6,7 +6,12 @@ export default async ({ TelegramID, title, data, type }) => {
   const telegram = new Telegram(process.env.TELEGRAM_BOT_TOKEN);
 
   const message = data
-    .map(plant => `*${plant.Name}* \n${plant[`${type}Advice`]}`)
+    .map(
+      plant =>
+        `*${plant.Name}*${
+          Boolean(plant[`${type}Advice`]) ? `\n${plant[`${type}Advice`]}` : ''
+        }`,
+    )
     .join(`\n\n`);
 
   try {
