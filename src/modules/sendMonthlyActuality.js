@@ -81,5 +81,5 @@ export default () => {
     }
   };
 
-  setInterval(sendMonthlyActuality, 1800 * 1000);
+  setInterval(sendMonthlyActuality, 30 * 1000);
 };
