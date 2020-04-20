@@ -6,7 +6,7 @@ import { currentDay, currentHour } from 'utils';
 
 export default () => {
   const sendMonthlyActuality = async () => {
-    if (currentDay !== 20 || currentHour !== 9) {
+    if (currentDay !== 20 || currentHour !== 11) {
       return;
     }
 
@@ -17,22 +17,20 @@ export default () => {
           userPrunings,
           userHarvests,
           userPlantations,
+          userWinters,
         } = await getUserPlantsData(id);
 
         if (
           Notifications.indexOf('Pruning') !== -1 &&
           userPrunings.length > 0
         ) {
-          const message = userPrunings
-            .map(({ Name, PruningAdvice }) => `*${Name}* \n${PruningAdvice}`)
-            .join(`\n\n`);
-
           sendUserNotification({
             TelegramID,
             title: `${userPrunings.length} plante${
               userPrunings.length > 1 ? 's' : ''
             } à tailler ce mois ci:`,
-            message,
+            data: userPrunings,
+            type: 'Pruning',
           });
         }
 
@@ -40,16 +38,13 @@ export default () => {
           Notifications.indexOf('Harvest') !== -1 &&
           userHarvests.length > 0
         ) {
-          const message = userHarvests
-            .map(({ Name, HarvestAdvice }) => `*${Name}* \n${HarvestAdvice}`)
-            .join(`\n\n`);
-
           sendUserNotification({
             TelegramID,
             title: `${userHarvests.length} plante${
               userHarvests.length > 1 ? 's' : ''
             } à récolter ce mois ci:`,
-            message,
+            data: userHarvests,
+            type: 'Harvest',
           });
         }
 
@@ -57,18 +52,24 @@ export default () => {
           Notifications.indexOf('Plantation') !== -1 &&
           userPlantations.length > 0
         ) {
-          const message = userPlantations
-            .map(
-              ({ Name, PlantationAdvice }) => `*${Name}* \n${PlantationAdvice}`,
-            )
-            .join(`\n\n`);
-
           sendUserNotification({
             TelegramID,
             title: `${userPlantations.length} plante${
               userPlantations.length > 1 ? 's' : ''
             } à planter ce mois ci:`,
-            message,
+            data: userPlantations,
+            type: 'Plantation',
+          });
+        }
+
+        if (Notifications.indexOf('Winter') !== -1 && userWinters.length > 0) {
+          sendUserNotification({
+            TelegramID,
+            title: `${userWinters.length} plante${
+              userWinters.length > 1 ? 's' : ''
+            } ont besoin de soin pour se préparer à l'hiver`,
+            data: userWinters,
+            type: 'Winter',
           });
         }
         updateLastNotificationDate(id);

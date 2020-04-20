@@ -8,14 +8,14 @@ const getUserPlantsData = async id => {
   }).base(process.env.AIRTABLE_BASE_ID);
 
   const getPlant = async id => {
-    const response = await base('Shrub').find(id);
+    const response = await base('Plant').find(id);
     return response?.fields;
   };
 
   const monthRecords = await base('Planning')
     .select({
       maxRecords: 12,
-      fields: ['Name', 'Plantation', 'Pruning', 'Harvest'],
+      fields: ['Name', 'Plantation', 'Pruning', 'Harvest', 'Winter'],
     })
     .firstPage();
 
@@ -49,10 +49,19 @@ const getUserPlantsData = async id => {
     ({ Owner }) => Owner && Owner.indexOf(id) !== -1,
   );
 
+  const winterIds = get(currentMonthRecord, 'fields.Winter', []);
+
+  const winterRecords = await Promise.all(winterIds.map(id => getPlant(id)));
+
+  const userWinters = winterRecords.filter(
+    ({ Owner }) => Owner && Owner.indexOf(id) !== -1,
+  );
+
   return {
     userPlantations,
     userPrunings,
     userHarvests,
+    userWinters,
   };
 };
 

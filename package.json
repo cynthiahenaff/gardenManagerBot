@@ -1,5 +1,5 @@
 {
-  "name": "pruningBot",
+  "name": "gardenManager",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -15,7 +15,8 @@
     "dotenv": "^8.2.0",
     "lodash": "^4.17.15",
     "nodemon": "^2.0.3",
-    "telegraf": "^3.37.0"
+    "telegraf": "^3.37.0",
+    "telegraf-inline-menu": "^4.0.0"
   },
   "scripts": {
     "dev": "NODE_ENV=development ./node_modules/.bin/nodemon -w src/ src/serverDev.js ",

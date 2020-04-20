@@ -1,5 +1,6 @@
 import { webhook } from 'server';
-import { get } from 'lodash';
+import { get, capitalize } from 'lodash';
+import { Markup } from 'telegraf';
 
 export const errorHandling = error => {
   console.error(error);
@@ -53,3 +54,45 @@ export const currentMonth = parseInt(
   }).format(new Date()),
   10,
 );
+
+const months = [
+  'janvier',
+  'fevrier',
+  'mars',
+  'avril',
+  'mai',
+  'juin',
+  'juillet',
+  'aout',
+  'septembre',
+  'octobre',
+  'novembre',
+  'decembre',
+];
+
+export const getMonthKeyboard = query => [
+  months
+    .slice(0, 4)
+    .map(month =>
+      Markup.callbackButton(
+        capitalize(month),
+        `${query}-${months.indexOf(month) + 1}`,
+      ),
+    ),
+  months
+    .slice(4, 8)
+    .map(month =>
+      Markup.callbackButton(
+        capitalize(month),
+        `${query}-${months.indexOf(month) + 1}`,
+      ),
+    ),
+  months
+    .slice(8, 12)
+    .map(month =>
+      Markup.callbackButton(
+        capitalize(month),
+        `${query}-${months.indexOf(month) + 1}`,
+      ),
+    ),
+];

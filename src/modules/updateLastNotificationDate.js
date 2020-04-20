@@ -1,6 +1,6 @@
 import Airtable from 'airtable';
 
-const updateLastNotificationDate = async id => {
+export default id => {
   const base = new Airtable({
     apiKey: process.env.AIRTABLE_API_KEY,
   }).base(process.env.AIRTABLE_BASE_ID);
@@ -24,5 +24,3 @@ const updateLastNotificationDate = async id => {
     console.log(err);
   }
 };
-
-export default updateLastNotificationDate;

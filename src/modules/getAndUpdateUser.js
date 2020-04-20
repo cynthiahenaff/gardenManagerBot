@@ -1,17 +1,12 @@
 import Airtable from 'airtable';
+import getUser from './getUser';
 
-const getAndUpdateUser = async (username, telegramId) => {
+export default async (username, telegramId) => {
   const base = new Airtable({
     apiKey: process.env.AIRTABLE_API_KEY,
   }).base(process.env.AIRTABLE_BASE_ID);
 
-  const users = await base('Users')
-    .select({
-      maxRecords: 12,
-    })
-    .firstPage();
-
-  const user = users.find(({ fields }) => fields?.Username === username);
+  const user = await getUser(username);
 
   try {
     await base('Users').update(user.id, {
@@ -22,5 +17,3 @@ const getAndUpdateUser = async (username, telegramId) => {
     console.log(err);
   }
 };
-
-export default getAndUpdateUser;
