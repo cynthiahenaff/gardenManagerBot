@@ -70,12 +70,17 @@ const months = [
   'decembre',
 ];
 
+const getMonthName = month =>
+  `${currentMonth === months.indexOf(month) + 1 ? '🗓 ' : ''}${capitalize(
+    month,
+  )}`;
+
 export const getMonthKeyboard = query => [
   months
     .slice(0, 4)
     .map(month =>
       Markup.callbackButton(
-        capitalize(month),
+        getMonthName(month),
         `${query}-${months.indexOf(month) + 1}`,
       ),
     ),
@@ -83,7 +88,7 @@ export const getMonthKeyboard = query => [
     .slice(4, 8)
     .map(month =>
       Markup.callbackButton(
-        capitalize(month),
+        getMonthName(month),
         `${query}-${months.indexOf(month) + 1}`,
       ),
     ),
@@ -91,7 +96,7 @@ export const getMonthKeyboard = query => [
     .slice(8, 12)
     .map(month =>
       Markup.callbackButton(
-        capitalize(month),
+        getMonthName(month),
         `${query}-${months.indexOf(month) + 1}`,
       ),
     ),

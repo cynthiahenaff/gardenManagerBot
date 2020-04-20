@@ -10,11 +10,11 @@ export default bot => {
         'Salut, quel sujet t’intéresse ? ',
         Markup.inlineKeyboard([
           [
-            Markup.callbackButton('Plantation', 'Plantation'),
-            Markup.callbackButton('Taille', 'Pruning'),
-            Markup.callbackButton('Récolte', 'Harvest'),
+            Markup.callbackButton('🌱 Plantation', 'Plantation'),
+            Markup.callbackButton('👩‍🌾 Taille', 'Pruning'),
+            Markup.callbackButton('🌻 Récolte', 'Harvest'),
           ],
-          [Markup.callbackButton('Se préparer pour l’hiver', 'Winter')],
+          [Markup.callbackButton('❄️ Se préparer pour l’hiver', 'Winter')],
         ]).extra(),
       );
     });

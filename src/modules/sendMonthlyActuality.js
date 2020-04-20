@@ -6,6 +6,7 @@ import { currentDay, currentHour } from 'utils';
 
 export default () => {
   const sendMonthlyActuality = async () => {
+    console.log({ currentDay, currentHour });
     if (currentDay !== 20 || currentHour !== 14) {
       console.log('return');
       return;
