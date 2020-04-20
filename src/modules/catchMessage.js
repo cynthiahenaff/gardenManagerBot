@@ -32,9 +32,12 @@ export default bot => {
       const query = ctx?.update?.callback_query?.data;
       const [type, month] = query.split('-');
       const plants = await getQueryData(user.id, type, month);
-      const message = plants
-        .map(plant => `*${plant.Name}* \n${plant[`${type}Advice`]}`)
-        .join(`\n\n`);
+      const message =
+        plants.length > 1
+          ? plants
+              .map(plant => `*${plant.Name}* \n${plant[`${type}Advice`]}`)
+              .join(`\n\n`)
+          : 'Rien à faire pour ce mois ci :)';
 
       ctx.replyWithMarkdown(message);
     });
