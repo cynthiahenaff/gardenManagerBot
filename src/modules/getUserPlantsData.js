@@ -1,6 +1,6 @@
 import Airtable from 'airtable';
 import { get } from 'lodash';
-import { currentMonth } from 'utils';
+import { getCurrentMonth } from 'utils';
 
 const getUserPlantsData = async id => {
   const base = new Airtable({
@@ -18,6 +18,8 @@ const getUserPlantsData = async id => {
       fields: ['Name', 'Plantation', 'Pruning', 'Harvest', 'Winter'],
     })
     .firstPage();
+
+  const currentMonth = getCurrentMonth();
 
   const currentMonthRecord = monthRecords.find(
     ({ fields }) => fields?.Name === `${currentMonth}`,

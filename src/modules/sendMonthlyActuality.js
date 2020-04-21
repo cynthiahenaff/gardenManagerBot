@@ -2,12 +2,14 @@ import getUserPlantsData from './getUserPlantsData';
 import getUsers from './getUsers';
 import updateLastNotificationDate from './updateLastNotificationDate';
 import sendUserNotification from './sendUserNotification';
-import { currentDay, currentHour } from 'utils';
+import { getCurrentDay, getCurrentHour } from 'utils';
 
 export default () => {
   const sendMonthlyActuality = async () => {
+    const currentHour = getCurrentHour();
+    const currentDay = getCurrentDay();
     console.log({ currentDay, currentHour });
-    if (currentDay !== 20 || currentHour !== 19) {
+    if (currentDay !== 21 || currentHour !== 10) {
       console.log('return');
       return;
     }
@@ -81,5 +83,5 @@ export default () => {
     }
   };
 
-  setInterval(sendMonthlyActuality, 3600 * 1000);
+  setInterval(sendMonthlyActuality, 1800 * 1000);
 };
