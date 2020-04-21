@@ -8,9 +8,7 @@ export default () => {
   const sendMonthlyActuality = async () => {
     const currentHour = getCurrentHour();
     const currentDay = getCurrentDay();
-    console.log({ currentDay, currentHour });
     if (currentDay !== 1 || currentHour !== 10) {
-      console.log('return');
       return;
     }
 
