@@ -90,10 +90,12 @@ export const getLabelByTypeAndMonth = (type, month) => {
   }
 };
 
-const getMonthName = month =>
-  `${currentMonth === months.indexOf(month) + 1 ? '🗓 ' : ''}${capitalize(
+const getMonthName = month => {
+  const currentMonth = getCurrentMonth();
+  return `${currentMonth === months.indexOf(month) + 1 ? '🗓 ' : ''}${capitalize(
     month,
   )}`;
+};
 
 export const getMonthKeyboard = query => [
   months
