@@ -13,7 +13,7 @@
     "airtable": "^0.8.1",
     "babel-plugin-module-resolver": "^4.0.0",
     "dotenv": "^8.2.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "nodemon": "^2.0.3",
     "telegraf": "^3.37.0",
     "telegraf-inline-menu": "^4.0.0"
