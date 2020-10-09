@@ -1,8 +1,8 @@
+node_modules
+npm-debug.log
+
 .env
 .env.*
-
-node_modules
-
 .DS_Store 
 
 docker

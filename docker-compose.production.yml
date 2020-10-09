@@ -1,0 +1,12 @@
+version: '3.9'
+services:
+  app:
+    container_name: gardenmanager
+    hostname: gardenmanager
+    user: "1004"
+    build: 
+      context: .
+      args: 
+        USER_ID: "1004"
+    env_file: .env.production
+    command: /bin/sh -c "yarn run build && yarn run start"

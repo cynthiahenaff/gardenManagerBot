@@ -27,6 +27,11 @@ export default bot => {
       );
     });
 
+    bot.action(/Plantation-.*/, async ctx => {
+      const query = ctx?.update?.callback_query?.data;
+      ctx.replyWithMarkdown('Quelle type de plante ?', Markup.inlineKeyboard())
+    })
+
     bot.action(/.*-.*/, async ctx => {
       const user = await getUser(ctx.from.username);
       const query = ctx?.update?.callback_query?.data;
