@@ -1,0 +1,10 @@
+version: '3.9'
+services:
+  app:
+    container_name: gardenmanager-dev
+    hostname: gardenmanager-dev
+    build: 
+      context: .
+    env_file: .env
+    command: ["yarn", "dev"]
+    restart: unless-stopped

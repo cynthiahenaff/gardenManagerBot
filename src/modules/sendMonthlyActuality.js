@@ -1,57 +1,80 @@
-import { format, getHours } from 'date-fns';
-import getAirtableData from './getAirtableData';
+import getUserPlantsData from './getUserPlantsData';
 import getUsers from './getUsers';
-import Telegram from 'telegraf/telegram';
-import { logHandling } from 'utils';
+import updateLastNotificationDate from './updateLastNotificationDate';
+import sendUserNotification from './sendUserNotification';
+import { getCurrentDay, getCurrentHour } from 'utils';
 
 export default () => {
-  const momId = parseInt(process.env.MOM_ID);
-  const telegram = new Telegram(process.env.TELEGRAM_BOT_TOKEN);
-
   const sendMonthlyActuality = async () => {
-    const day = format(new Date(), 'd');
-    const hour = getHours(new Date());
-
-    if (day !== 18 && hour !== 9) {
+    const currentHour = getCurrentHour();
+    const currentDay = getCurrentDay();
+    if (currentDay !== 1 || currentHour !== 10) {
       return;
     }
 
     try {
       const { users } = await getUsers();
-      users.map(async ({ TelegramID, id }) => {
-        const { userPrunings, userHarvests } = await getAirtableData(id);
+      users.map(async ({ TelegramID, id, Notifications }) => {
+        const {
+          userPrunings,
+          userHarvests,
+          userPlantations,
+          userWinters,
+        } = await getUserPlantsData(id);
 
-        if (userPrunings.length > 0) {
-          const message = userPrunings
-            .map(({ Name, PruningAdvice }) => `*${Name}* \n${PruningAdvice}`)
-            .join(`\n\n`);
-
-          if (TelegramID === momId) {
-            await logHandling(
-              'Voici les plantes qui ont besoin d‘être taillée pour ce mois ci',
-              message,
-            );
-          }
-
-          telegram.sendMessage(
+        if (
+          Notifications.indexOf('Pruning') !== -1 &&
+          userPrunings.length > 0
+        ) {
+          sendUserNotification({
             TelegramID,
-            'Voici les plantes qui ont besoin d‘être taillée pour ce mois ci',
-          );
-          telegram.sendMessage(TelegramID, message, { parse_mode: 'Markdown' });
+            title: `👩‍🌾 ${userPrunings.length} plante${
+              userPrunings.length > 1 ? 's' : ''
+            } à tailler ce mois ci:`,
+            data: userPrunings,
+            type: 'Pruning',
+          });
         }
 
-        if (userHarvests.length > 0) {
-          const message = userHarvests
-            .map(({ Name, HarvestAdvice }) => `*${Name}* \n${HarvestAdvice}`)
-            .join(`\n\n`);
-
-          if (TelegramID === momId) {
-            await logHandling('Voici les recoltes du mois', message);
-          }
-
-          telegram.sendMessage(TelegramID, 'Voici les recoltes du mois');
-          telegram.sendMessage(TelegramID, message, { parse_mode: 'Markdown' });
+        if (
+          Notifications.indexOf('Harvest') !== -1 &&
+          userHarvests.length > 0
+        ) {
+          sendUserNotification({
+            TelegramID,
+            title: `🌻 ${userHarvests.length} plante${
+              userHarvests.length > 1 ? 's' : ''
+            } à récolter ce mois ci:`,
+            data: userHarvests,
+            type: 'Harvest',
+          });
         }
+
+        if (
+          Notifications.indexOf('Plantation') !== -1 &&
+          userPlantations.length > 0
+        ) {
+          sendUserNotification({
+            TelegramID,
+            title: `🌱 ${userPlantations.length} plante${
+              userPlantations.length > 1 ? 's' : ''
+            } à planter ce mois ci:`,
+            data: userPlantations,
+            type: 'Plantation',
+          });
+        }
+
+        if (Notifications.indexOf('Winter') !== -1 && userWinters.length > 0) {
+          sendUserNotification({
+            TelegramID,
+            title: `❄️ ${userWinters.length} plante${
+              userWinters.length > 1 ? 's' : ''
+            } ont besoin de soin pour affronter l'hiver:`,
+            data: userWinters,
+            type: 'Winter',
+          });
+        }
+        updateLastNotificationDate(id);
       });
     } catch (err) {
       console.log('ERROR', err);

@@ -1,6 +1,6 @@
 import Airtable from 'airtable';
 
-const getUsers = async () => {
+export default async username => {
   const base = new Airtable({
     apiKey: process.env.AIRTABLE_API_KEY,
   }).base(process.env.AIRTABLE_BASE_ID);
@@ -8,13 +8,9 @@ const getUsers = async () => {
   const users = await base('Users')
     .select({
       maxRecords: 12,
-      fields: ['Name', 'Username', 'TelegramID', 'Plant', 'Notifications'],
     })
     .firstPage();
 
-  return {
-    users: users.map(({ id, fields }) => ({ ...fields, id })),
-  };
+  const user = users.find(({ fields }) => fields?.Username === username);
+  return user;
 };
-
-export default getUsers;
